@@ -28,6 +28,7 @@ const createBooking = async(req, res) => {
     }
 
     const totalPrice = movie.price * seats
+    console.log(req.body.totalPrice)
 
     const newBooking = new Booking({
       movie: movie,
