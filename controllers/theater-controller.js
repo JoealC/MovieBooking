@@ -1,19 +1,19 @@
 const Theater = require('../models/Theater');
 
 
-exports.createTheater = async (req, res) => {
+const createTheater = async (req, res) => {
   try {
-    const { name, location, capacity } = req.body;
+    const { name, location, seatsAvailabe } = req.body;
 
     const newTheater = new Theater({
       name,
       location,
-      capacity,
+      seatsAvailabe,
     });
 
     await newTheater.save();
 
-    res.status(201).json(newTheater);
+    res.status(201).json({message: "Theater created successfully"});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -21,10 +21,10 @@ exports.createTheater = async (req, res) => {
 };
 
 
-exports.getAllTheaters = async (req, res) => {
+const getAllTheaters = async (req, res) => {
   try {
     const theaters = await Theater.find();
-    res.status(200).json(theaters);
+    res.status(200).json({theaters});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -32,15 +32,16 @@ exports.getAllTheaters = async (req, res) => {
 };
 
 
-exports.getTheaterById = async (req, res) => {
+const getTheaterById = async (req, res) => {
   try {
+    const theaterId = req.params.id
     const theater = await Theater.findById(req.params.id);
 
     if (!theater) {
       return res.status(404).json({ message: 'Theater not found' });
     }
 
-    res.status(200).json(theater);
+    res.status(200).json({theater});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -48,16 +49,16 @@ exports.getTheaterById = async (req, res) => {
 };
 
 
-exports.updateTheater = async (req, res) => {
+const updateTheater = async (req, res) => {
   try {
-    const { name, location, capacity } = req.body;
+    const { name, location, seatsAvailabe } = req.body;
 
     const updatedTheater = await Theater.findByIdAndUpdate(
       req.params.id,
       {
         name,
         location,
-        capacity,
+        seatsAvailabe,
       },
       { new: true }
     );
@@ -66,7 +67,7 @@ exports.updateTheater = async (req, res) => {
       return res.status(404).json({ message: 'Theater not found' });
     }
 
-    res.status(200).json(updatedTheater);
+    res.status(200).json({updatedTheater});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -74,7 +75,7 @@ exports.updateTheater = async (req, res) => {
 };
 
 
-exports.deleteTheater = async (req, res) => {
+const deleteTheater = async (req, res) => {
   try {
     const deletedTheater = await Theater.findByIdAndDelete(req.params.id);
 
@@ -88,3 +89,5 @@ exports.deleteTheater = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 }
+
+module.exports = {createTheater, getAllTheaters, getTheaterById, updateTheater, deleteTheater}

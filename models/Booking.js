@@ -1,28 +1,34 @@
 const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
-  userId: {
+  movie: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Movie',
     required: true,
   },
-  movieTimingId: {
+  theater: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'MovieTiming',
+    ref: 'Theater',
     required: true,
+  },
+  user:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    require: true,
   },
   seats: {
     type: Number,
     required: true,
   },
   totalPrice: {
-    type: Number,
+    type: String,
     required: true,
   },
-  bookingDate: {
-    type: Date,
-    default: Date.now,
+  time:{
+    type: String,
+    required: true
   },
+
 });
 
 module.exports = mongoose.model('Booking', bookingSchema)

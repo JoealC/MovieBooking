@@ -9,14 +9,10 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  releaseDate: {
-    type: Date,
+  price:{
+    type: Number,
     required: true,
-  },
-  duration: {
-    type: String,
-    required: true,
-  },
+  }
 });
 
 module.exports = mongoose.model('Movie', movieSchema)

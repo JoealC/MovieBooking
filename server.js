@@ -9,22 +9,20 @@ connectDatabase();
 
 app.use(bodyParser.json());
 
-const authRoutes = require('./routes/auth')
-const adminRoutes = require('./routes/admin');
-const movierRoutes = require('./routes/movie')
-const theaterRoutes = require('./routes/theater')
-const bookingRoutes = require('./routes/booking')
-const userRoutes = require("./routes/user");
-const authenticateToken = require('./middleware/authMiddleware');
+
+const adminRoutes = require("./routes/admin-routes")
+const userRoutes = require("./routes/user-routes")
+const movieRoutes = require('./routes/movie-routes')
+const theaterRoutes = require('./routes/theater-routes')
+const bookingRoutes = require('./routes/booking-routes')
 
 
 
-app.use("/auth", authRoutes)
-app.use('/admin', authenticateToken, adminRoutes)
-app.use("/user", userRoutes)
-app.use("/movies", movierRoutes)
-app.use("/theaters", theaterRoutes)
-app.use('/bookings', bookingRoutes)
+app.use('/api', adminRoutes)
+app.use("/api", userRoutes)
+app.use("/api", movieRoutes)
+app.use("/api", theaterRoutes)
+app.use('/api', bookingRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
