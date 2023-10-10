@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const dbUrl = 'mongodb://localhost:27017/MovieBooking';
 
-const connectDatabase = async () => {
+export const connectDatabase = async () => {
   try {
     await mongoose.connect(dbUrl, {
       useNewUrlParser: true,
@@ -16,4 +16,3 @@ const connectDatabase = async () => {
   }
 };
 
-module.exports = connectDatabase

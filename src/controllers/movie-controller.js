@@ -1,7 +1,9 @@
-const Movie = require('../models/Movie');
+import {Movie} from '../models/Movie';
+import { successResponse, errorResponse } from "../middleware/response";
 
 
-const createMovie = async (req, res) => {
+
+export const createMovie = async (req, res) => {
   try {
     const { title, description, price } = req.body;
 
@@ -13,42 +15,42 @@ const createMovie = async (req, res) => {
 
     await newMovie.save();
 
-    res.status(201).json(newMovie);
+    successResponse(res,201, (newMovie));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    errorResponse (res,500,'Server error');
   }
 };
 
 
-const getAllMovies = async (req, res) => {
+export const getAllMovies = async (req, res) => {
   try {
     const movies = await Movie.find();
-    res.status(200).json({movies});
+    successResponse (res,200,({movies}));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    errorResponse(res,500,'Server error');
   }
 };
 
 
-const getMovieById = async (req, res) => {
+export const getMovieById = async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id);
 
     if (!movie) {
-      return res.status(404).json({ message: 'Movie not found' });
+      errorResponse(res,404,'Movie not found');
     }
 
-    res.status(200).json(movie);
+    successResponse (res,200,(movie));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    errorResponse(res, 500, 'Server error' );
   }
 };
 
 
-const updateMovie = async (req, res) => {
+export const updateMovie = async (req, res) => {
   try {
     const { title, description, price } = req.body;
 
@@ -63,29 +65,28 @@ const updateMovie = async (req, res) => {
     );
 
     if (!updatedMovie) {
-      return res.status(404).json({ message: 'Movie not found' });
+      errorResponse(res, 404, 'Movie not found');
     }
 
-    res.status(200).json({updatedMovie});
+    successResponse (res, 200, ({updatedMovie}));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    errorResponse(res, 500, 'Server error' );
   }
 };
 
-const deleteMovie = async (req, res) => {
+export const deleteMovie = async (req, res) => {
   try {
     const deletedMovie = await Movie.findByIdAndDelete(req.params.id);
 
     if (!deletedMovie) {
-      return res.status(404).json({ message: 'Movie not found' });
+      errorResponse(res, 404, 'Movie not found' );
     }
 
     res.status(204).send();
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    errorResponse( res, 500, 'Server error');
   }
 };
 
-module.exports = {createMovie, getAllMovies, getMovieById, updateMovie, deleteMovie}

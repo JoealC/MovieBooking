@@ -1,16 +1,20 @@
-const nodemailer = require("nodemailer")
-const dotenv = require("dotenv")
-dotenv.config()
-const transport = nodemailer.createTransport({
-    host: process.env.host,
+import nodemailer from "nodemailer"
+import { config } from "dotenv"
+config()
+export const transport = nodemailer.createTransport({
+host: process.env.host,
     port: process.env.port,
+    service:"Gmail",
     auth:{
         user: process.env.user,
         pass: process.env.pass
+    },
+    tls:{
+        rejectUnauthorized: false
     }
 })
 
-const sendOtpEmail = async(toEmail, otp) =>{
+export const sendOtpEmail = async(toEmail, otp) =>{
     try{
         const mailOptions = {
             from: process.env.user,
@@ -24,5 +28,3 @@ const sendOtpEmail = async(toEmail, otp) =>{
         throw err
     }
 }
-
-module.exports = {sendOtpEmail}

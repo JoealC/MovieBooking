@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const bookingSchema = new mongoose.Schema({
   movie: {
@@ -6,7 +6,7 @@ const bookingSchema = new mongoose.Schema({
     ref: 'Movie',
     required: true,
   },
-  theater: {
+  theater_Id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Theater',
     required: true,
@@ -20,15 +20,15 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  totalPrice: {
-    type: String,
-    required: true,
+  total_price: {
+    type: Number,
   },
-  time:{
+  created_at:{
     type: Date,
-    required: true
+    default: Date.now,
+    status: {type: Number, default: 1}
   },
 
 });
 
-module.exports = mongoose.model('Booking', bookingSchema)
+export const Booking = mongoose.model('Booking', bookingSchema)
